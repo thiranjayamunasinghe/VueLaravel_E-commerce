@@ -24,8 +24,8 @@ Route::post('register',['uses'=>'UserController@registerUser',
 //Route::post('register','UserController@registerUser');
 
 
-Route::post('login',['uses'=>'UserController@loginUser',
-	'as' => 'login']);
+/*Route::post('login',['uses'=>'UserController@loginUser',
+	'as' => 'login']);*/
 
 Route::get('logged', ['uses'=>'UserController@getLogged',
 	'as'=>'logged'])->middleware('auth');
