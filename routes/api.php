@@ -22,6 +22,12 @@ Route::post('/register',[
 
 ]);
 
+Route::post('/loadProfile',[
+    'uses'=>'UserController@loadProfile'
+
+]);
+
+
 Route::post('/login',[
     'uses'=>'UserController@loginUser'
 ]);

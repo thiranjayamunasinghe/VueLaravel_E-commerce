@@ -68,9 +68,9 @@ class userController extends Controller
 	    $user = User::where(['email'=>$email,'verifyToken'=>$verifyToken])->first();
 	    if($user){
 	        user::where(['email'=>$email,'verifyToken'=>$verifyToken])->update(['status'=>'1','verifyToken'=>Null]);
-            return redirect('/loginPage')->with('responseReg','Registration & verification Completed');
+            return redirect('http://localhost:8080/loginPage')->with('responseReg','Registration & verification Completed');
         }else{
-            return redirect('/loginPage')->with('responseVerifyErr','User Not Found');
+            return redirect('http://localhost:8080/loginPage')->with('responseVerifyErr','User Not Found');
         }
 
     }
@@ -83,10 +83,15 @@ class userController extends Controller
         $data = $request->only('email','password');
 
         if(!$token=JWTAuth::attempt($data)){
-            return "Not auth";
-        }
+            return ['msg'=>"Not valid creditionals"];   
 
-            return ['token'=>$token];
+        }else if(!Auth::user()->status){
+            return ['msg'=>"Verify your email first"];            
+            
+        }
+        
+        $currentUser = Auth::user();
+            return ['token'=>$token,'currentUser'=>$currentUser];
         /*$data = $request->only('email','password','status');
        // $data2 = $request->only('status');
 
@@ -139,4 +144,8 @@ public function logoutUser(){
 	}
 
 
+	public function loadProfile(){
+
+	    //$user = user::
+    }
 }
