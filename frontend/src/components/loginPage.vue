@@ -77,19 +77,9 @@
                 .then(response => {
 
                     let token=response.data.token;
-                    let name=response.data.currentUser.firstname;
-                    let msg=response.data.msg;
-                    console.log(msg);
-
                     if(token){
                         localStorage.setItem('token',token);
-                        let testToken=localStorage.getItem('token');
-                        this.$router.push('/profile');
-                        console.log(name);
-                        console.log(localStorage.getItem('token'));
-                        
-                    }else{
-                        console.log(msg);
+                        console.log(token);
                     }
                 })
                 .catch(error => {
