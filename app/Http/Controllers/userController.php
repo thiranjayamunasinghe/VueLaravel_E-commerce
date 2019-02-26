@@ -12,10 +12,16 @@ use Mail;
 use App\Mail\verifyEmail;
 use phpDocumentor\Reflection\Types\Null_;
 use JWTAuth;
+use App\Http\Controllers\Controller;
 
 
 class userController extends Controller
 {
+
+    public function __construct()
+    {
+        //$this->middleware('auth:api', ['only' => ['logoutUser']]);
+    }
 
 
 
@@ -83,10 +89,13 @@ class userController extends Controller
         $data = $request->only('email','password');
 
         if(!$token=JWTAuth::attempt($data)){
-            return "Not auth";
+        //    if ($token = $this->guard()->attempt($data)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-            return ['token'=>$token];
+        //return response()->json(['token'=>$token]);
+        return response()->json(['token'=>$token,'user'=>auth()->user()]);
+        //return $this->respondWithToken($token);
+            //return ['token'=>$token];
         /*$data = $request->only('email','password','status');
        // $data2 = $request->only('status');
 
@@ -133,10 +142,70 @@ public function verifyEmailFirst(){
 	}
 
 public function logoutUser(){
-		Auth::logout();
+		/*Auth::logout();
 		Session::flush();
-		return redirect('/loginPage')->with('responseLogout','Logout Succesfully');
-	}
+        return redirect('/loginPage')->with('responseLogout','Logout Succesfully');*/
+        auth()->logout();
+        $token=JWTAuth::getToken();
+       return response()->json(['msg'=>'Succesfully logged out','token'=>$token]);
+       /*
+        $token=JWTAuth::getToken();
+        try{
+            $token=JWTAuth::invalidate($token);
+            return response()->json(['token' => $token]);
+        }catch(Exception $e){
+
+        }*/
+    }
+    
+
+
+
+    public function refresh()
+    {
+        $token=JWTAuth::getToken();
+        try{
+            $token=JWTAuth::refresh($token);
+            return response()->json(['token' => $token]);
+        }catch(Exception $e){
+            Response::json(['msg' => "Need to login again"]);
+
+        }
+    }
+    
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard()
+    {
+        return Auth::guard();
+    }
+
+    public function me()
+    {
+        return response()->json(['user'=>auth()->user()]);
+        
+    }
+
 
 
 }

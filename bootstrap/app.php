@@ -16,6 +16,7 @@ $app = new Illuminate\Foundation\Application(
 );
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
@@ -42,6 +43,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
+
 
 /*
 |--------------------------------------------------------------------------
