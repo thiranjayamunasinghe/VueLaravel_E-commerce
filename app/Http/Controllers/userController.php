@@ -205,7 +205,7 @@ public function logoutUser(){
     public function me()
     {
         $token=JWTAuth::getToken();
-        return response()->json(['token'->$token,'user'=>auth()->user()]);
+        return response()->json(['user'=>auth()->user()]);
         
     }
 
