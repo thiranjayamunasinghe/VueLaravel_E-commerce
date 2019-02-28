@@ -63,7 +63,7 @@
             this.$http.post('http://localhost:8000/api/me',outToken)
             
                 .then(response => {
-                    if(!token){
+                    if(!$token){
                         this.$router.push('/login');
                     }
                 })

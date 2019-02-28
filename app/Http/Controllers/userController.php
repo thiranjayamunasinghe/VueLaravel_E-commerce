@@ -74,9 +74,11 @@ class userController extends Controller
 	    $user = User::where(['email'=>$email,'verifyToken'=>$verifyToken])->first();
 	    if($user){
 	        user::where(['email'=>$email,'verifyToken'=>$verifyToken])->update(['status'=>'1','verifyToken'=>Null]);
-            return redirect('/loginPage')->with('responseReg','Registration & verification Completed');
+            return redirect('http://localhost:8080/loginPage')->with('responseReg','Registration & verification Completed');
+            //return redirect('/loginPage')->with('responseReg','Registration & verification Completed');
         }else{
-            return redirect('/loginPage')->with('responseVerifyErr','User Not Found');
+            //return redirect('/loginPage')->with('responseVerifyErr','User Not Found');
+            return redirect('http://localhost:8080/loginPage')->with('responseVerifyErr','User Not Found');
         }
 
     }
@@ -202,7 +204,8 @@ public function logoutUser(){
 
     public function me()
     {
-        return response()->json(['user'=>auth()->user()]);
+        $token=JWTAuth::getToken();
+        return response()->json(['token'->$token,'user'=>auth()->user()]);
         
     }
 
