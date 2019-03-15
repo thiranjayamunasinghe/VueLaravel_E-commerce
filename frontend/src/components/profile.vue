@@ -42,16 +42,17 @@
                 let outToken=localStorage.getItem('token');
                 console.log(outToken);
                 
-            this.$http.post('http://localhost:8000/api/logout', outToken)
+            this.$http.post('http://localhost:8000/api/logout?token='+outToken)
             
                 .then(response => {
                     if(!token){
-                        this.$router.push('/login');
+                        this.$router.push('/loginPage');
                     }
                 })
                 .catch(error => {
                     console.log(error.response);
                     console.log("ERROR");
+                    this.$router.push('/loginPage');
                 })
 
         },
@@ -59,8 +60,10 @@
         me(){
                 let outToken=localStorage.getItem('token');
                 console.log(outToken);
+                 this.$http.headers.common.Authorization = 'Bearer '+outToken;
+
                 
-            this.$http.post('http://localhost:8000/api/me',outToken)
+            this.$http.post('http://localhost:8000/api/me?token='+outToken)
             
                 .then(response => {
                     if(!$token){
