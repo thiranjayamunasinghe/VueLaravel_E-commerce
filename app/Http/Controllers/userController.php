@@ -95,9 +95,6 @@ class userController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
         }
         //return response()->json(['token'=>$token]);
-        $user = User::first();
-        $token = JWTAuth::fromUser($user);
-        
         return response()->json(['token'=>$token,'user'=>auth()->user()]);
         //return $this->respondWithToken($token);
             //return ['token'=>$token];
@@ -146,22 +143,13 @@ public function verifyEmailFirst(){
 		return view('registerPage');
 	}
 
-public function logoutUser(Request $request){
+public function logoutUser(){
 		/*Auth::logout();
 		Session::flush();
         return redirect('/loginPage')->with('responseLogout','Logout Succesfully');*/
-      //  auth()->logout();
-
-
-      /*
-        $user = User::first();
-        $token = JWTAuth::fromUser($user);
         auth()->logout();
+        $token=JWTAuth::getToken();
        return response()->json(['msg'=>'Succesfully logged out','token'=>$token]);
-*/
-
-
-
        /*
         $token=JWTAuth::getToken();
         try{
@@ -170,16 +158,6 @@ public function logoutUser(Request $request){
         }catch(Exception $e){
 
         }*/
-
-        //$this->validate($request, ['token' => 'required']);
-        
-        try {
-            JWTAuth::invalidate($request->input('token'));
-            return response()->json(['success' => true, 'message'=> "You have successfully logged out."]);
-        } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            return response()->json(['success' => false, 'error' => 'Failed to logout, please try again.'], 500);
-        }
     }
     
 
@@ -225,36 +203,9 @@ public function logoutUser(Request $request){
     }
 
     public function me()
-    {/*
+    {
         $token=JWTAuth::getToken();
-        $user = User::first();
-       // $token = JWTAuth::fromUser($user);
-        
-        return response()->json(['token'=>$token,'user'=>$user]);
-      //  return response()->json(['user'=>auth()->user()]);*/
-
-
-      try {
-
-        if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-        }
-
-} catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-        return response()->json(['token_expired'], $e->getStatusCode());
-
-} catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-        return response()->json(['token_invalid'], $e->getStatusCode());
-
-} catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-        return response()->json(['token_absent'], $e->getStatusCode());
-
-}
-
-return response()->json(compact('user'));
+        return response()->json(['user'=>auth()->user()]);
         
     }
 

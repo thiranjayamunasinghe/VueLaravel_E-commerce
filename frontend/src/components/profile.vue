@@ -40,6 +40,7 @@
                 let $Token=localStorage.getItem('token');
                /* console.log(Token);*/
                 
+<<<<<<< HEAD
             this.$http.post('http://localhost:8000/api/logout?token='+$Token)
             
                 .then(response => {
@@ -47,23 +48,40 @@
                     let $Token=localStorage.getItem('token');
                     if(!$Token){
                         this.$router.push('/loginPage');
+=======
+            this.$http.post('http://localhost:8000/api/logout', outToken)
+            
+                .then(response => {
+                    if(!token){
+                        this.$router.push('/login');
+>>>>>>> parent of d344b21... After Login User checking and after logout invalidate token success
                     }
                 })
                 .catch(error => {
                     console.log(error.response);
                     console.log("ERROR");
+<<<<<<< HEAD
                     
+=======
+>>>>>>> parent of d344b21... After Login User checking and after logout invalidate token success
                 })
 
         },
 
         me(){
+<<<<<<< HEAD
                 let $Token=localStorage.getItem('token');
                 console.log($Token);
                  
 
                 
             this.$http.post('http://localhost:8000/api/me?token='+$Token)
+=======
+                let outToken=localStorage.getItem('token');
+                console.log(outToken);
+                
+            this.$http.post('http://localhost:8000/api/me',outToken)
+>>>>>>> parent of d344b21... After Login User checking and after logout invalidate token success
             
                 .then(response => {
                     this.user=response.data.user;

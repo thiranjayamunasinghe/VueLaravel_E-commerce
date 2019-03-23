@@ -40,18 +40,8 @@ Route::post('/register',[
 ]);*/
 
 Route::post('login', 'UserController@loginUser');
-    
+    Route::post('logout', 'UserController@logoutUser');
     Route::post('refresh', 'UserController@refresh');
-   
+    Route::post('me', 'UserController@me');
     Route::post('register','UserController@registerUser');
     Route::post('guard','UserController@guard');
-
-    /*Route::middleware('auth:api')->post('me',function(Request $request){
-        return $request->user();
-
-    });*/
-    Route::group(['middleware' => ['jwt.verify']], function() {
-        Route::post('logout', 'UserController@logoutUser');
-        Route::post('me', 'UserController@me');
-        
-    });
