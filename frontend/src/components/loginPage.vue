@@ -1,6 +1,5 @@
 <template>
     <div class="container box">
-
         <form class="form-signin" @submit.prevent='loginUser'>
             <h1 align="center">Login</h1>
             <div class="form-group form-group-lg">
@@ -67,7 +66,8 @@
                 login: {
                     email: "",
                     password: ""
-                }
+                },
+                userL:[],
             }
         },
 
@@ -75,11 +75,11 @@
             loginUser(){
             this.$http.post('http://localhost:8000/api/login', this.login)
                 .then(response => {
-
-                    let token=response.data.token;
-                    if(token){
-                        localStorage.setItem('token',token);
-                        console.log(token);
+                    //this.userL=response.data.user;
+                    let $token=response.data.token;
+                    if($token){
+                        localStorage.setItem('token',$token);
+                        console.log($token);
                         this.$router.push('/profile');
                     }
                 })
