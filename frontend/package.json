@@ -9,7 +9,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.12",
     "material-design-icons-iconfont": "^3.0.3",
